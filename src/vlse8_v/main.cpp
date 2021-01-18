@@ -1,6 +1,8 @@
 #include <stdint.h>
 
-void copy_data_ustride_vec(int8_t *dest_data, int8_t *source_data, int stride, int data_num);
+extern "C" {
+  void copy_data_ustride_vec(int8_t *dest_data, int8_t *source_data, int stride, int data_num);
+}
 
 #include "data.h"
 

@@ -1,7 +1,9 @@
 #include <stdint.h>
 
-void copy_data_vec(int32_t *dest_data, int32_t *source_data, int data_num);
-void copy_data_mask_vec(int32_t *dest_data, int32_t *source_data, int32_t *mask, int data_num);
+extern "C" {
+  void copy_data_vec(int32_t *dest_data, int32_t *source_data, int data_num);
+  void copy_data_mask_vec(int32_t *dest_data, int32_t *source_data, int32_t *mask, int data_num);
+}
 
 #include "data.h"
 

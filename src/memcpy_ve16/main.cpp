@@ -1,7 +1,9 @@
 #include <stdint.h>
 
-void copy_data_vec(int64_t *dest_data, int64_t *source_data, int data_num);
-void copy_data_mask_vec(int64_t *dest_data, int64_t *source_data, int64_t *mask, int data_num);
+extern "C" {
+  void copy_data_vec(int16_t *dest_data, int16_t *source_data, int data_num);
+  void copy_data_mask_vec(int16_t *dest_data, int16_t *source_data, int16_t *mask, int data_num);
+}
 
 #include "data.h"
 
@@ -28,7 +30,7 @@ int check_data (int64_t *vec_data, const int64_t *scalar_data, const int data_nu
 }
 
 
-void copy_data_scalar(int64_t *dest_data, int64_t *source_data, const int data_num)
+void copy_data_scalar(int16_t *dest_data, int16_t *source_data, const int data_num)
 {
   for (int i = 0; i < data_num; i++) {
     dest_data[i] = source_data[i];
@@ -36,9 +38,9 @@ void copy_data_scalar(int64_t *dest_data, int64_t *source_data, const int data_n
 }
 
 
-void copy_data_mask_scalar(int64_t *dest_data, int64_t *source_data, int64_t *mask, const int data_num)
+void copy_data_mask_scalar(int16_t *dest_data, int16_t *source_data, int16_t *mask, const int data_num)
 {
-  const int elem_size = sizeof(int64_t) * 8;
+  const int elem_size = sizeof(int16_t) * 8;
   for (int i = 0; i < data_num; i++) {
     dest_data[i] = ((mask[i/elem_size] >> (i%elem_size)) & 0x1) ? source_data[i] : 0;
   }
@@ -68,9 +70,9 @@ int test_0()
 {
   format_array();
 
-  const int data_num = DATA_NUM * sizeof(int32_t) / sizeof(int64_t);
-  copy_data_vec   ((int64_t *)vec_data,    (int64_t *)source_data, data_num);
-  copy_data_scalar((int64_t *)scalar_data, (int64_t *)source_data, data_num);
+  const int data_num = DATA_NUM * sizeof(int32_t) / sizeof(int16_t);
+  copy_data_vec   ((int16_t *)vec_data,    (int16_t *)source_data, data_num);
+  copy_data_scalar((int16_t *)scalar_data, (int16_t *)source_data, data_num);
 
   return check_data((int64_t *)vec_data, (int64_t *)scalar_data, DATA_NUM * sizeof(int32_t) / sizeof(int64_t));
 }
@@ -79,9 +81,9 @@ int test_vl()
 {
   format_array();
 
-  const int data_num = DATA_NUM * sizeof(int32_t) / sizeof(int64_t) - 10;
-  copy_data_vec   ((int64_t *)vec_data,    (int64_t *)source_data, data_num);
-  copy_data_scalar((int64_t *)scalar_data, (int64_t *)source_data, data_num);
+  const int data_num = DATA_NUM * sizeof(int32_t) / sizeof(int16_t) - 10;
+  copy_data_vec   ((int16_t *)vec_data,    (int16_t *)source_data, data_num);
+  copy_data_scalar((int16_t *)scalar_data, (int16_t *)source_data, data_num);
 
   return check_data((int64_t *)vec_data, (int64_t *)scalar_data, DATA_NUM * sizeof(int32_t) / sizeof(int64_t));
 }
@@ -90,9 +92,9 @@ int test_mask()
 {
   format_array();
 
-  const int data_num = DATA_NUM * sizeof(int32_t) / sizeof(int64_t);
-  copy_data_mask_vec((int64_t *)vec_data,    (int64_t *)source_data, (int64_t *)mask_data, data_num);
-  copy_data_mask_scalar ((int64_t *)scalar_data, (int64_t *)source_data, (int64_t *)mask_data, data_num);
+  const int data_num = DATA_NUM * sizeof(int32_t) / sizeof(int16_t);
+  copy_data_mask_vec((int16_t *)vec_data,    (int16_t *)source_data, (int16_t *)mask_data, data_num);
+  copy_data_mask_scalar ((int16_t *)scalar_data, (int16_t *)source_data, (int16_t *)mask_data, data_num);
 
   return check_data((int64_t *)vec_data, (int64_t *)scalar_data, DATA_NUM * sizeof(int32_t) / sizeof(int64_t));
 }
