@@ -4,7 +4,7 @@
 //
 copy_data_ustride_vec:
 _loop:
-    vsetvli     t0, a3, e16,m1  // Vectors of 8b
+    vsetvli     t0, a3, e16,m1,ta,ma  // Vectors of 8b
     slli        t2, t0, 1       // add step for 8-bit
     mul         t1, t0, a2      // define step
     vlse16.v    v1, (a1), a2    // Load bytes
